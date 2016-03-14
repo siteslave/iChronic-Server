@@ -30,7 +30,7 @@ var upload = multer({ storage: storage });
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.send({ok: true, msg: 'Welcome to iChronic Server'});
 });
 
 router.post('/upload', upload.single('file'), (req, res, next) => {
