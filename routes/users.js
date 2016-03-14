@@ -7,6 +7,10 @@ let crypto = require('crypto');
 
 let users = require('../models/users');
 
+router.get('/login', (req, res, next) => {
+  res.render('login');
+});
+
 /* GET users listing. */
 router.post('/login', function(req, res, next) {
   let data = req.body;

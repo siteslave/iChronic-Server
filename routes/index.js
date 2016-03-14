@@ -38,6 +38,8 @@ router.post('/upload', upload.single('file'), (req, res, next) => {
   //console.log(req.body);
 
   let db = req.db;
+  let hospcode = req.body.hospcode;
+  let fileName = req.file.originalname;
 
   let filePath = req.file.path;
   let tmpDir = './extracted/' + moment().format('x');
@@ -72,6 +74,9 @@ router.post('/upload', upload.single('file'), (req, res, next) => {
     })
     .then(() => {
       return imports.screen(db, screenFile);
+    })
+    .then(() => {
+      return imports.updateLog(db, hospcode, fileName);
     })
     .then(() => {
       res.send({ok: true})

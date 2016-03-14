@@ -1,7 +1,50 @@
-doctype html
-html
+doctype
+html(ng-app="app")
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset="utf8")
+    title ระบบจัดการข้อมูลผู้ป่วยโรคเรื้อรัง
+    link(rel="stylesheet", href="/libs/angular-material/angular-material.css")
+    link(rel="stylesheet", href="/stylesheets/iconfont/material-icons.css")
+    link(rel="stylesheet", href="/libs/angular-material-data-table/dist/md-data-table.css")
+    link(rel="stylesheet", href="/stylesheets/style.css")
+
+    script(src="/libs/angular/angular.js")
+    script(src="/libs/angular-animate/angular-animate.min.js")
+    script(src="/libs/angular-aria/angular-aria.min.js")
+    script(src="/libs/angular-messages/angular-messages.min.js")
+    script(src="/libs/angular-material/angular-material.min.js")
+    script(src="/libs/angular-ui-router/release/angular-ui-router.min.js")
+    script(src="/libs/angular-material-data-table/dist/md-data-table.min.js")
+
+    script(src="/javascripts/app.js")
+
   body
-    block content
+    md-toolbar(ng-controller="NavCtrl")
+      div.md-toolbar-tools
+        md-button.md-icon-button(aria-label="Menu", ng-click="toggleLeft()")
+          md-icon.material-icons menu
+        h2
+          span ระบบจัดการข้อมูลผู้ป่วยโรคเรื้อรัง
+        span(flex)
+
+    div(ng-controller="AppCtrl", layout="column", style="height:500px;", ng-cloak)
+      section(layout="row", flex)
+        md-sidenav(style="min-height: 680px;", md-component-id="left" md-is-locked-open="$mdMedia('gt-md')").md-sidenav-left.md-whiteframe-z2
+          md-toolbar.md-theme-indigo
+            h1.md-toolbar-tools MAIN MENU
+          md-content
+            md-menu-content
+              md-menu-item
+                md-button(ng-click="go('main')")
+                  md-icon(md-menu-align-target).material-icons home
+                  | &nbsp; หน้าหลัก
+              md-menu-item
+                md-button(ng-click="go('report')")
+                  md-icon(md-menu-align-target).material-icons print
+                  | &nbsp; รายงาน
+              md-menu-item
+                md-button(ng-click="go('history')")
+                  md-icon(md-menu-align-target).material-icons send
+                  | &nbsp; สถิติการส่งข้อมุล
+        div(flex)
+          block content

@@ -31,7 +31,7 @@ let db = require('knex')({
     port: 3306,
     database: 'ichronic',
     user: 'root',
-    password: '123456'
+    password: '789124'
   }
 });
 

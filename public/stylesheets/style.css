@@ -1,8 +1,12 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html, body {
+  background-color: #e9eaed;
+  height: 100%;
+  -webkit-app-region: drag;
+}
+.bg-grey {
+  background-color: #e9eaed;
+  height: 100%;
 }
 
-a {
-  color: #00B7FF;
-}
+.md-datepicker-button {
+  width: 80px; }

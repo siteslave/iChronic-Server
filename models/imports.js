@@ -1,9 +1,11 @@
+"use strict";
+
 var Q = require('q'),
   moment = require('moment');
 
 module.exports = {
 
-  village: function (db, file) {
+  village(db, file) {
     var q = Q.defer();
 
     var sql = `
@@ -22,13 +24,13 @@ module.exports = {
     return q.promise;
   },
 
-  chronic: function (db, file) {
+  chronic(db, file) {
     var q = Q.defer();
 
     var sql = `
       LOAD DATA LOCAL INFILE ? REPLACE INTO TABLE chronic FIELDS
       TERMINATED BY "|" LINES TERMINATED BY "\r\n" IGNORE 1 ROWS
-      (HOSPCODE,CID,PID,HN,PNAME,FNAME,LNAME,@BIRTH,SEX,BEGIN,VILLAGE,@UPDATED) SET BIRTH=STR_TO_DATE(@BIRTH, "%Y%m%d"), UPDATED=STR_TO_DATE(@UPDATED, "%Y%m%d%H%i%s")
+      (HOSPCODE,CID,PID,HN,PNAME,FNAME,LNAME,@BIRTH,SEX,BEGIN,VILLAGE,CLINIC,@UPDATED) SET BIRTH=STR_TO_DATE(@BIRTH, "%Y%m%d"), UPDATED=STR_TO_DATE(@UPDATED, "%Y%m%d%H%i%s")
       `;
     db.raw(sql, [file])
       .then(function () {
@@ -41,7 +43,7 @@ module.exports = {
     return q.promise;
   },
 
-  diag: function (db, file) {
+  diag(db, file) {
     var q = Q.defer();
 
     var sql = `
@@ -60,7 +62,7 @@ module.exports = {
     return q.promise;
   },
 
-  screen: function (db, file) {
+  screen(db, file) {
     var q = Q.defer();
 
     var sql = `
@@ -78,5 +80,25 @@ module.exports = {
       });
 
     return q.promise;
+  },
+
+  updateLog(db, hospcode, filename) {
+    let q = Q.defer();
+
+    db('logs')
+    .insert({
+      hospcode: hospcode,
+      filename: filename,
+      updated: moment().format('YYYY-MM-DD HH:mm:ss')
+    })
+    .then(() => {
+      q.resolve()
+    })
+    .catch((err) => {
+      q.reject(err)
+    });
+
+    return q.promise;
+
   }
 };

@@ -1,0 +1,29 @@
+{
+  "name": "iChronic-Server",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Satit Rianpit <siteslave@msn.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/siteslave/iChronic-Server",
+  "moduleType": [
+    "amd"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "angular-material": "^1.0.6",
+    "moment": "^2.12.0",
+    "lodash": "^4.6.1",
+    "angular-material-data-table": "^0.9.12"
+  }
+}
