@@ -50,7 +50,7 @@ var auth = function (req, res, next) {
 let db = require('knex')({
   client: 'mysql',
   connection: {
-    host: 'localhost',
+    host: '127.0.0.1',
     port: 3306,
     database: 'ichronic',
     user: 'sa',
