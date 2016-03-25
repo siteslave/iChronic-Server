@@ -1,0 +1,39 @@
+<md-card>
+  <md-card-header>
+    <md-card-avatar>
+      <md-icon class="md-avatar-icon">
+        <i class="material-icons">send</i>
+      </md-icon>
+    </md-card-avatar>
+    <md-card-header-text>
+      <span class="mdi-title">ประวัติการส่งไฟล์</span>
+      <span class="md-subhead">ประวัติการส่งไฟล์เข้าสู่ระบบ</span>
+    </md-card-header-text>
+  </md-card-header>
+  <md-card-content>
+
+    <md-table-container>
+      <table md-table>
+        <thead md-head>
+        <tr md-row>
+          <th md-column>วันที่</th>
+          <th md-column>หนวยบริการ</th>
+          <th md-column>ชื่อไฟล์</th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row ng-if="!files.length">
+          <td md-cell colspan="3">ไม่พบรายการ</td>
+        </tr>
+        <tr md-row ng-if="files.length" ng-repeat="f in files">
+
+          <td md-cell>{{ f.updated | date: 'd LLLL yyyy HH:mm:ss' }}</td>
+          <td md-cell>{{ f.hospcode }}-{{ f.hospname }}</td>
+          <td md-cell>{{ f.filename }}</td>
+        </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+  </md-card-content>
+</md-card>

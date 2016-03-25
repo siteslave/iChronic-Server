@@ -33,10 +33,19 @@ router.get('/', function(req, res, next) {
   res.send({ok: true, msg: 'Welcome to iChronic Server'});
 });
 
-router.post('/upload', upload.single('file'), (req, res, next) => {
-  //console.log(req.file);
-  //console.log(req.body);
+// router.get('/hdc', (req, res, next) => {
+//   req.dbHdc('person')
+//     .select()
+//     .limit(1)
+//     .then((rows) => {
+//       res.send({ok: true, rows: rows})
+//     })
+//     .catch((err) => {
+//       res.send({ok: false, msg: err})
+//     })
+// })
 
+router.post('/upload', upload.single('file'), (req, res, next) => {
   let db = req.db;
   let hospcode = req.body.hospcode;
   let fileName = req.file.originalname;

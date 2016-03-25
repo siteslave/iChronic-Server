@@ -7,10 +7,11 @@
     </md-card-avatar>
     <md-card-header-text>
       <span class="mdi-title">สรุปรายงาน</span>
-      <span class="md-subhead">สรุปยอดผู้ป่วยแยกตามหมู่บ้าน</span>
+      <span class="md-subhead">สรุปยอดผู้ป่วยแยกตามหน่วยบริการ</span>
     </md-card-header-text>
   </md-card-header>
   <md-card-content>
+
     <div layout="row">
       <div flex="30">
         ตั้งแต่
@@ -20,16 +21,15 @@
         ถึง
         <md-datepicker ng-model="endDate" md-placeholder="Enter date"></md-datepicker>
       </div>
-      <md-button class="md-raised md-primary" ng-click="getCkd()">ประมวลผล</md-button>
-      <md-button class="md-raised" ng-click="exportToExcel()">Excel Export</md-button>
+      <md-button class="md-raised md-primary" ng-click="getReport()">ประมวลผล</md-button>
+      <md-button class="md-raised" ng-click="exportExcel()">Excel Export</md-button>
     </div>
   </md-card-content>
 </md-card>
 
 <md-card>
   <md-card-content>
-    <md-progress-linear md-mode="indeterminate" ng-show="showProgress"></md-progress-linear>
-
+    <md-progress-linear class="md-warn" md-mode="indeterminate" ng-show="isLoading"></md-progress-linear>
     <md-tabs md-dynamic-height md-border-bottom>
       <md-tab label="ผลประเมิน CKD">
         <md-table-container>
@@ -45,25 +45,25 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-if="!villages.length">
+            <tr md-row ng-if="!ckds.length">
               <td md-cell colspan="6">ไม่พบรายการ, กรุณาเลือกช่วงเวลา และ ประมวลผลใหม่อีกครั้ง</td>
             </tr>
-            <tr md-row ng-if="villages.length" ng-repeat="v in villages">
-              <td md-cell>{{ v.name }}</td>
-              <td md-cell>{{ v.ckd_state1 }}</td>
-              <td md-cell>{{ v.ckd_state2 }}</td>
-              <td md-cell>{{ v.ckd_state3 }}</td>
-              <td md-cell>{{ v.ckd_state4 }}</td>
-              <td md-cell>{{ v.ckd_state5 }}</td>
+            <tr md-row ng-if="ckds.length" ng-repeat="c in ckds">
+              <td md-cell>{{ c.hospcode }}-{{ c.hospname }}</td>
+              <td md-cell>{{ c.state1 }}</td>
+              <td md-cell>{{ c.state2 }}</td>
+              <td md-cell>{{ c.state3 }}</td>
+              <td md-cell>{{ c.state2 }}</td>
+              <td md-cell>{{ c.state5 }}</td>
             </tr>
-            <tr md-row  ng-if="villages.length">
-              <td md-cell><strong>รวม</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(1, 'ckd')"><strong>{{ totalCKDState1 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(2, 'ckd')"><strong>{{ totalCKDState2 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(3, 'ckd')"><strong>{{ totalCKDState3 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(4, 'ckd')"><strong>{{ totalCKDState4 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(5, 'ckd')"><strong>{{ totalCKDState5 }}</strong></td>
-            </tr>
+            <!--<tr md-row  ng-if="ckds.length">-->
+              <!--<td md-cell><strong>รวม</strong></td>-->
+              <!--<td md-cell style="cursor: hand;" ng-click="goStateView(1, 'ckd')"><strong>{{ totalCKDState1 }}</strong></td>-->
+              <!--<td md-cell style="cursor: hand;" ng-click="goStateView(2, 'ckd')"><strong>{{ totalCKDState2 }}</strong></td>-->
+              <!--<td md-cell style="cursor: hand;" ng-click="goStateView(3, 'ckd')"><strong>{{ totalCKDState3 }}</strong></td>-->
+              <!--<td md-cell style="cursor: hand;" ng-click="goStateView(4, 'ckd')"><strong>{{ totalCKDState4 }}</strong></td>-->
+              <!--<td md-cell style="cursor: hand;" ng-click="goStateView(5, 'ckd')"><strong>{{ totalCKDState5 }}</strong></td>-->
+            <!--</tr>-->
             </tbody>
           </table>
         </md-table-container>
@@ -82,24 +82,16 @@
             </tr>
             </thead>
             <tbody md-body>
-            <tr md-row ng-if="!villages.length">
+            <tr md-row ng-if="!cvds.length">
               <td md-cell colspan="6">ไม่พบรายการ, กรุณาเลือกช่วงเวลา และ ประมวลผลใหม่อีกครั้ง</td>
             </tr>
-            <tr md-row ng-if="villages.length" ng-repeat="v in villages">
-              <td md-cell>{{ v.code }}</td>
-              <td md-cell>{{ v.cvd_state1 }}</td>
-              <td md-cell>{{ v.cvd_state2 }}</td>
-              <td md-cell>{{ v.cvd_state3 }}</td>
-              <td md-cell>{{ v.cvd_state4 }}</td>
-              <td md-cell>{{ v.cvd_state5 }}</td>
-            </tr>
-            <tr md-row  ng-if="villages.length">
-              <td md-cell>รวม</td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(1, 'cvd')"><strong>{{ totalCVDState1 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(2, 'cvd')"><strong>{{ totalCVDState2 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(3, 'cvd')"><strong>{{ totalCVDState3 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(4, 'cvd')"><strong>{{ totalCVDState4 }}</strong></td>
-              <td md-cell style="cursor: hand;" ng-click="goStateView(5, 'cvd')"><strong>{{ totalCVDState5 }}</strong></td>
+            <tr md-row ng-if="cvds.length" ng-repeat="c in cvds">
+              <td md-cell>{{ c.hospcode }}-{{ c.hospname }}</td>
+              <td md-cell>{{ c.state1 }}</td>
+              <td md-cell>{{ c.state2 }}</td>
+              <td md-cell>{{ c.state3 }}</td>
+              <td md-cell>{{ c.state4 }}</td>
+              <td md-cell>{{ c.state5 }}</td>
             </tr>
             </tbody>
           </table>

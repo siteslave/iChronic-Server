@@ -4,3 +4,5 @@ public/uploads
 public/libs
 extracted
 *.zip
+public/javascripts
+public/tmp

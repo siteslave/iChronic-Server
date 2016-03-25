@@ -1,0 +1,23 @@
+extends login_layout
+
+block content
+    form(name="frmLogin", ng-controller="LoginCtrl")
+        md-card
+            md-card-header
+                md-card-avatar
+                    md-icon.md-avatar-icon
+                        i.material-icons ccount_circle
+                md-card-header-text
+                    span.mdi-title Login
+                    span.md-subhead Enter username and password for login
+            md-card-content
+                form
+                    div(layout-gt-sm="row")
+                        md-input-container.md-block(flex-gt-sm)
+                            label Username
+                            input(ng-model="username", type="text", ng-required="true")
+                        md-input-container.md-block(flex-gt-sm)
+                            label Password
+                            input(ng-model="password", type="password", ng-required="true")
+
+                    md-button.md-primary.md-raised(ng-click="doLogin()", ng-disabled="frmLogin.$invalid") Login
